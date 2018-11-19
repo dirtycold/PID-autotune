@@ -1,8 +1,13 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.8)
 
 project(PID-autotune)
 
-FIND_PACKAGE(Qt4 REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets PrintSupport REQUIRED)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
 
 file(
 	GLOB
@@ -18,19 +23,15 @@ file(
 	third_party/qcustomplot/*.h
 )
 
-QT4_WRAP_CPP(header_files_moc ${header_files})
-
-INCLUDE(${QT_USE_FILE})
-
-ADD_DEFINITIONS(${QT_DEFINITIONS})
-
 add_executable(
 	pid-autotune
 	${source_files}
-	${header_files_moc}
+        ${header_files}
 )
 
 target_link_libraries(
 	pid-autotune
-	${QT_LIBRARIES}
+        Qt5::Core
+        Qt5::Widgets
+        Qt5::PrintSupport
 )
